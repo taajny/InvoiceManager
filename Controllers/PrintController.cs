@@ -16,19 +16,12 @@ namespace InvoiceManager.Controllers
     {
         private InvoiceRepository _invoiceRepository = new InvoiceRepository();
 
-        public ActionResult PrintPdf(int id)
+        public ActionResult PrintInvoice(int id)
         {
-            
             var userId = User.Identity.GetUserId();
             var invoice = _invoiceRepository.GetInvoice(id, userId);
 
-            var printResult = new ActionAsPdf(@"InvoiceTemplate", invoice)
-            {
-                PageSize = Size.A4,
-                PageOrientation = Orientation.Portrait
-            };
-
-            return printResult;
+            return View("InvoiceTemplate", invoice);
         }
 
         public ActionResult InvoiceToPdf(int id)
@@ -70,14 +63,14 @@ namespace InvoiceManager.Controllers
             return File(data, "application/pdf", fileName);
         }
 
-        [AllowAnonymous]
-        public ActionResult InvoiceTemplate(int id)
+        
+       /* public ActionResult InvoiceTemplate(int id)
         {
             var userId = User.Identity.GetUserId();
             var invoice = _invoiceRepository.GetInvoice(id, userId);
              
             return View(invoice);
-        }
+        }*/
 
     }
 }
